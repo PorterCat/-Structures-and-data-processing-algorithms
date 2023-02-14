@@ -9,8 +9,12 @@ int CheckSum(int* , int);
 int RunNumber(int*, int);
 int PrintMas(int*, int);
 void selectSort(int* , int);
+void bubbleSort(int* , int);
 void swap(int*, int*);
+
+
 void clearCountMC();
+void printTable();
 
 int p_mix_count = 0, p_compare_count = 0;
 int t_mix_count = 0, t_compare_count = 0;
@@ -19,7 +23,42 @@ int main()
 {
 
 	
-    int n;
+
+    
+    
+	
+	/*int i, j;
+	printf("|\tn\t|\tM+C Theory\t|\tM + C Dec\t|\tM + C Inc\t|\tM + C Rand\t|\n____________________________________________________________________________________________________________\n\n");
+	
+	for (i = 1; i < 6; i++)
+	{
+		int n = i * 100;
+    	int A[n];
+		printf("| %d |\t\t", n);
+		FillDec(A, n);
+		bubbleSort(A,n);
+		t_compare_count = (pow(n,2) - n)/2;
+		
+		
+		
+		printf("%d|\t\t %d\t\t|", t_mix_count + t_compare_count, p_mix_count + p_compare_count);
+		clearCountMC();
+		
+		FillRand(A, n);
+		bubbleSort(A,n);
+		
+		printf("%d|\t\t", p_mix_count + p_compare_count);
+		clearCountMC();
+		
+		FillInc(A, n);
+		bubbleSort(A,n);
+		printf("%d|\t\t", p_mix_count + p_compare_count);
+		clearCountMC();
+		printf("\n");
+	}
+	
+	*/
+	int n;
     scanf("%d", &n);
     int A[n];
     
@@ -29,9 +68,9 @@ int main()
     FillRand(A, n);
     PrintMas(A, n);
     t_compare_count = (pow(n,2) - n)/2;
-	t_mix_count = (3 * (n-1));
+    t_mix_count = (3 * t_compare_count)/2;
 	printf("[Sum : %d; Number of series: %d]", CheckSum(A, n), RunNumber(A, n));
-	selectSort(A, n);
+	bubbleSort(A, n);
 	PrintMas(A, n);
 	printf("[Sum : %d; Number of series: %d]\n", CheckSum(A, n), RunNumber(A, n));
 	printf("\n| Theory  | M: %d, C: %d M+C: %d\n| Practic | M: %d, C: %d M+C: %d\n\n", t_mix_count, t_compare_count, t_mix_count + t_compare_count, p_mix_count, p_compare_count, p_mix_count + p_compare_count);
@@ -41,9 +80,9 @@ int main()
     FillInc(A, n);
     PrintMas(A, n);
     t_compare_count = (pow(n,2) - n)/2;
-	t_mix_count = (3 * (n-1));
+    t_mix_count = 0;
 	printf("[Sum : %d; Number of series: %d]", CheckSum(A, n), RunNumber(A, n));
-	selectSort(A, n);
+	bubbleSort(A, n);
 	PrintMas(A, n);
 	printf("[Sum : %d; Number of series: %d]\n", CheckSum(A, n), RunNumber(A, n));
 	printf("\n| Theory  | M: %d, C: %d M+C: %d\n| Practic | M: %d, C: %d M+C: %d\n\n", t_mix_count, t_compare_count, t_mix_count + t_compare_count, p_mix_count, p_compare_count, p_mix_count + p_compare_count);
@@ -51,24 +90,46 @@ int main()
 
 	printf("\tDicreasing array sorting: \n\t________________________\n");
 	t_compare_count = (pow(n,2) - n)/2;
-	t_mix_count = (3 * (n-1));
+	t_mix_count = (3 * t_compare_count);
     FillDec(A, n);
     PrintMas(A, n);
 	printf("[Sum : %d; Number of series: %d]", CheckSum(A, n), RunNumber(A, n));
-	selectSort(A, n);
+	bubbleSort(A, n);
 	PrintMas(A, n);
 	printf("[Sum : %d; Number of series: %d]\n", CheckSum(A, n), RunNumber(A, n));
 	printf("\n| Theory  | M: %d, C: %d M+C: %d\n| Practic | M: %d, C: %d M+C: %d\n\n", t_mix_count, t_compare_count, t_mix_count + t_compare_count, p_mix_count, p_compare_count, p_mix_count + p_compare_count);
 	clearCountMC();
+	
+
 
 	
+}
+
+
+void bubbleSort(int *A, int n)
+{
+	
+	int i, j;
+	for (i = 0; i < n - 1; i++)
+	{
+		for(j = i + 1; j < n; j++)
+		{
+			p_compare_count++;
+			if(A[i] > A[j])
+			{
+				swap(&A[i], &A[j]);
+				p_mix_count++;
+			}
+		}
+	}
 }
 
 
 
 void selectSort(int *A, int n)
 {
-	
+	t_mix_count = 3 * (n-1);
+	t_compare_count = (pow(n,2) - n)/2;
     int i, j, k;
  
     for (i = 0; i < n-1; i++)
@@ -76,10 +137,10 @@ void selectSort(int *A, int n)
       
         k = i;
         for (j = i+1; j < n; j++)
-        p_compare_count++;
             if (A[j] < A[k])
 		  	{
             	k = j;
+				p_compare_count++;
 		  	}
        
            if(k != i)
@@ -92,6 +153,7 @@ void selectSort(int *A, int n)
 void clearCountMC()
 {
 	p_mix_count = 0, p_compare_count = 0;
+	t_mix_count = 0, t_compare_count = 0;
 }
 
 
@@ -180,5 +242,5 @@ void swap(int *xp, int *yp)
     int temp = *xp;
     *xp = *yp;
     *yp = temp;
-    t_mix_count += 3;
+    p_mix_count += 3;
 }
