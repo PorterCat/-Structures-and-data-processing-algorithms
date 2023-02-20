@@ -18,94 +18,80 @@ void swap(int*, int*);
 
 
 void clearCountMC();
-void printTable(int);
+void printTable();
 
 int p_mix_count = 0, p_compare_count = 0;
 int t_mix_count = 0, t_compare_count = 0;
 
 int main()
 {
-	printf("\tBubbleSort table:\n\t-----------------\n");
-	printTable(1);
+	printTable();
 
 }
 
-void printTable(int type)
+void printTable()
 {
 	
 	int i, j;
 	
     std::cout << std::setw( 5 ) << std::left << " n   |" 
-                        << std::setw( 16 ) << " M + C Theory  |"
-                        << std::setw( 14 ) << " M + C Dec    |"
+                        << std::setw( 30 ) << "              M + C Bubble                  |"
+                        << std::setw( 30 ) << "              M + C Shaker                  |"
+                        << std::endl;
+    std::cout << "_____|____________________________________________|____________________________________________|\n"
+
+                        << std::setw( 5 ) << std::left << "     |"
+                        << std::setw( 15 ) << " M + C Dec    |" 
+                        << std::setw( 14 ) << " M + C Rand   |"
+                        << std::setw( 15 ) << " M + C Inc    |" 
+
+                        << std::setw( 15 ) << " M + C Dec    |" 
                         << std::setw( 14 ) << " M + C Rand   |"
                         << std::setw( 15 ) << " M + C Inc    |" 
                         << std::endl;
-    std::cout << "_____|_______________|______________|______________|______________|\n";
+     std::cout << "_____|______________|______________|______________|______________|______________|______________|\n";
+    
+                
+                        
 
 	for (i = 1; i < 6; i++)
 	{
         int* A;
         int n = i * 100;
         A = new int [n];
+        std::cout << std::setw( 5 ) << std::left << n << "|";
+
         FillDec(A, n);
-		switch(type)
-		{
-			case 1: 
-				bubbleSort(A,n); 
-				t_compare_count = (pow(n,2) - n)/2;
-	    		t_mix_count = (3 * t_compare_count);
-				break;
-			case 2: 
-				shakerSort(A,n); 
-				t_compare_count = (pow(n,2) - n)/2;
-	    		t_mix_count = ((3 * (pow(n,2) - n))/4 );
-				break;
-		}
+		bubbleSort(A,n); 
+        std::cout << std::setw( 14 ) <<  p_mix_count + p_compare_count << "|";
+        clearCountMC();
+
+        FillRand(A, n);
+		bubbleSort(A,n); 
+        std::cout << std::setw( 14 ) <<  p_mix_count + p_compare_count << "|";
+        clearCountMC();
+
+        FillInc(A, n);
+		bubbleSort(A,n); 
+        std::cout << std::setw( 14 ) <<  p_mix_count + p_compare_count << "|";
+        clearCountMC();
+
+        FillDec(A, n);
+		shakerSort(A,n); 
+        std::cout << std::setw( 14 ) <<  p_mix_count + p_compare_count << "|";
+        clearCountMC();
+
+        FillRand(A, n);
+		shakerSort(A,n); 
+        std::cout << std::setw( 14 ) <<  p_mix_count + p_compare_count << "|";
+        clearCountMC();
+
+        FillInc(A, n);
+		shakerSort(A,n); 
+        std::cout << std::setw( 14 ) <<  p_mix_count + p_compare_count << "|";
+        clearCountMC();
 
 		
-
-
-        std::cout << std::setw( 5 ) << std::left << n << "|"
-                        << std::setw( 15 ) << t_mix_count + t_compare_count << "|"
-                        << std::setw( 14 ) <<  p_mix_count + p_compare_count << "|";
-        clearCountMC();
-        FillRand(A, n);
-		switch(type)
-		{
-			case 1: 
-				bubbleSort(A,n); 
-				t_compare_count = (pow(n,2) - n)/2;
-        		t_mix_count = (3 * t_compare_count)/2;
-				break;
-			case 2: 
-				shakerSort(A,n); 
-				t_compare_count = (pow(n,2) - n)/2;
-	    		t_mix_count = ((3 * (pow(n,2) - n))/4 );
-				break;
-		}
-
-
-        std::cout << std::setw( 14 ) << p_mix_count + p_compare_count << "|";
-        clearCountMC();  
-        FillInc(A, n);
-		switch(type)
-		{
-			case 1: 
-				bubbleSort(A,n); 
-				t_compare_count = (pow(n,2) - n)/2;
-       			t_mix_count = 0;
-				break;
-			case 2: 
-				shakerSort(A,n); 
-				t_compare_count = (pow(n,2) - n)/2;
-	    		t_mix_count = ((3 * (pow(n,2) - n))/4 );
-				break;
-		}  
-
-
-        std::cout << std::setw( 14 ) << p_mix_count + p_compare_count << "|";
-        clearCountMC();
         printf("\n");
 		
 	}
