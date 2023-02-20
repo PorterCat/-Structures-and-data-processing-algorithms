@@ -24,36 +24,41 @@ int main()
     int A[n];
     
     
-	t_mix_count = 3 * (n-1);
-	t_compare_count = (pow(n,2) - n)/2;
+
 	printf("\tRandom array sorting: \n\t________________________\n");
     FillRand(A, n);
     PrintMas(A, n);
+    t_compare_count = (pow(n,2) - n)/2;
+	t_mix_count = (3 * (n-1));
 	printf("[Sum : %d; Number of series: %d]", CheckSum(A, n), RunNumber(A, n));
 	selectSort(A, n);
 	PrintMas(A, n);
 	printf("[Sum : %d; Number of series: %d]\n", CheckSum(A, n), RunNumber(A, n));
-	printf("\n| Theory  | M: %d, C: %d\n| Practic | M: %d, C: %d\n\n", t_mix_count, t_compare_count, p_mix_count, p_compare_count);
+	printf("\n| Theory  | M: %d, C: %d M+C: %d\n| Practic | M: %d, C: %d M+C: %d\n\n", t_mix_count, t_compare_count, t_mix_count + t_compare_count, p_mix_count, p_compare_count, p_mix_count + p_compare_count);
 	clearCountMC();
 
 	printf("\tIncreasing array sorting: \n\t________________________\n");
     FillInc(A, n);
     PrintMas(A, n);
+    t_compare_count = (pow(n,2) - n)/2;
+	t_mix_count = (3 * (n-1));
 	printf("[Sum : %d; Number of series: %d]", CheckSum(A, n), RunNumber(A, n));
 	selectSort(A, n);
 	PrintMas(A, n);
 	printf("[Sum : %d; Number of series: %d]\n", CheckSum(A, n), RunNumber(A, n));
-	printf("\n| Theory  | M: %d, C: %d\n| Practic | M: %d, C: %d\n\n", t_mix_count, t_compare_count, p_mix_count, p_compare_count);
+	printf("\n| Theory  | M: %d, C: %d M+C: %d\n| Practic | M: %d, C: %d M+C: %d\n\n", t_mix_count, t_compare_count, t_mix_count + t_compare_count, p_mix_count, p_compare_count, p_mix_count + p_compare_count);
 	clearCountMC();
 
 	printf("\tDicreasing array sorting: \n\t________________________\n");
+	t_compare_count = (pow(n,2) - n)/2;
+	t_mix_count = (3 * (n-1));
     FillDec(A, n);
     PrintMas(A, n);
 	printf("[Sum : %d; Number of series: %d]", CheckSum(A, n), RunNumber(A, n));
 	selectSort(A, n);
 	PrintMas(A, n);
 	printf("[Sum : %d; Number of series: %d]\n", CheckSum(A, n), RunNumber(A, n));
-	printf("\n| Theory  | M: %d, C: %d\n| Practic | M: %d, C: %d\n\n", t_mix_count, t_compare_count, p_mix_count, p_compare_count);
+	printf("\n| Theory  | M: %d, C: %d M+C: %d\n| Practic | M: %d, C: %d M+C: %d\n\n", t_mix_count, t_compare_count, t_mix_count + t_compare_count, p_mix_count, p_compare_count, p_mix_count + p_compare_count);
 	clearCountMC();
 
 	
@@ -63,25 +68,23 @@ int main()
 
 void selectSort(int *A, int n)
 {
+	t_mix_count = 3 * (n-1);
+	t_compare_count = (pow(n,2) - n)/2;
     int i, j, k;
  
     for (i = 0; i < n-1; i++)
-    {
-      
-        k = i;
-        for (j = i+1; j < n; j++)
-            if (A[j] < A[k])
-		  	{
-            	k = j;
-				p_compare_count++;
-		  	}
-       
-           if(k != i)
-		    {
-            	swap(&A[k], &A[i]);
-				p_mix_count++;
-		   	}
-    }
+	{
+		k = i;
+		for (j = i + 1; j < n; j++)
+		{
+			p_compare_count ++;
+			if(A[j] < A[k])
+			{
+				k = j;
+			}
+		}
+		swap(&A[i], &A[k]);
+	}
 }
 
 void clearCountMC()
@@ -98,7 +101,7 @@ void FillInc(int *A, int n)
 	
 	for (i = 1; i < n; )
     {
-    	A[i] = 1 + 2*i;
+    	A[i] = 1 + i;
     	if (A[i-1] < A[i])
     	{
     		i++;
@@ -109,12 +112,12 @@ void FillInc(int *A, int n)
 void FillDec( int *A, int n)
 {
 	int i = 0;
-	A[i] = 100;
+	A[i] = 1000;
 
 	
 	for (i = 1; i < n; )
     {
-    	A[i] = 100 - 2*i;
+    	A[i] = 1000 - i;
     	
     	if (A[i-1] > A[i])
     	{
@@ -130,7 +133,7 @@ void FillRand(int *A, int n)
 	int i = 0;
 	for (i = 0; i < n; i++)
     {
-    	A[i] = 1 + rand()% 100;
+    	A[i] = 1 + rand()% 1000;
     }
 }
 
@@ -175,11 +178,5 @@ void swap(int *xp, int *yp)
     int temp = *xp;
     *xp = *yp;
     *yp = temp;
+    p_mix_count += 3;
 }
-
-
-
-
-
-
-
