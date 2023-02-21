@@ -25,6 +25,15 @@ int t_mix_count = 0, t_compare_count = 0;
 
 int main()
 {
+	
+	/*int *A;
+	int n; scanf("%d", &n);
+	A = new int [n];
+	FillRand(A, n);
+	printMas(A, n);
+	shakerSort(A, n);
+	printMas(A, n);*/
+	
 	printTable();
 
 }
@@ -124,28 +133,37 @@ void bubbleSort(int *A, int n)
 
 void shakerSort(int *A, int n)
 {
-	int i, j, k;
-   	for(i = 0; i < n;) 
-   	{
-      	for(j = i+1; j < n; j++) 
-	  	{
-			p_compare_count ++;
-         	if(A[j] < A[j-1])
+	int L = 0, R = n-1, k = 0, i, j;
+	while(L < R)
+	{
+		for(j = R; j > L ; )
+		{
+			p_compare_count++;
+			if(A[j] < A[j - 1])
 			{
 				swap(&A[j], &A[j-1]);
-			}
-      	}
-      	n--;
-      	for(k = n-1; k > i; k--) 
+				k = j;
+			}	
+			j--;
+		}
+		if(p_mix_count == 0)
 		{
-			p_compare_count ++;
-        	if(A[k] < A[k-1])
+			break;
+		}
+		L = k;
+		for (j = L; j < R; )
+		{
+			p_compare_count++;
+			if(A[j] > A[j+1])
 			{
-				swap(&A[k], &A[k-1]);
+				swap(&A[j], &A[j+1]);
+				k = j;
 			}
-      	}
-      	i++;
+			j++;
+		}
+		R = k;
 	}
+	
 }
 
 
